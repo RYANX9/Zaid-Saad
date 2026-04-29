@@ -254,7 +254,7 @@ export default function AdminPage() {
                   </label>
                   <input
                     type="text"
-                    value={String((infoForm as Record<string, string>)[field.key] || "")}
+                    value={String((infoForm as any)[field.key] ?? "")}
                     onChange={(e) =>
                       setInfoForm({ ...infoForm, [field.key]: e.target.value })
                     }
