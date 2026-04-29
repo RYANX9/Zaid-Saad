@@ -20,10 +20,22 @@ export default function HomePage() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [skillsVisible, setSkillsVisible] = useState(false);
   const [bandVisible, setBandVisible] = useState(false);
+  const [isLight, setIsLight] = useState(false);
 
   const bandRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+
+  // Toggle Theme
+  const toggleTheme = () => {
+    const newMode = !isLight;
+    setIsLight(newMode);
+    if (newMode) {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  };
 
   // Custom cursor
   useEffect(() => {
@@ -99,7 +111,7 @@ export default function HomePage() {
   const isVisible = (id: string) => visibleSections.has(id);
 
   return (
-    <main className="bg-black text-white min-h-screen relative">
+    <main className="bg-black text-white min-h-screen relative transition-colors duration-500">
       {/* Custom Cursor */}
       <div
         id="cursor"
@@ -143,14 +155,16 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-        <Link
-          href="/admin"
-          className="font-[family-name:var(--font-space-mono)] text-[10px] tracking-[0.18em] uppercase text-[#999] hover:text-white transition-colors duration-200"
+        
+        {/* Switch replacing Admin Button */}
+        <button
+          onClick={toggleTheme}
+          className="font-[family-name:var(--font-space-mono)] text-[10px] tracking-[0.18em] uppercase text-[#999] hover:text-white transition-colors duration-200 cursor-pointer"
           onMouseEnter={() => setCursorHover(true)}
           onMouseLeave={() => setCursorHover(false)}
         >
-          Admin
-        </Link>
+          {isLight ? "Dark Mode" : "Light Mode"}
+        </button>
       </nav>
 
       {/* ── HERO ── */}
